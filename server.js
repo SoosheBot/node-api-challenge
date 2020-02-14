@@ -12,7 +12,7 @@ server.use(helmet());
 server.use(cors());
 
 server.use("/api/projects", logger, projectRouter);
-server.use("/api/projects", logger, actionRouter);
+server.use("/api/actions", logger, actionRouter);
 
 //init test of server on insomnia
 server.get("/", (req, res) => {
