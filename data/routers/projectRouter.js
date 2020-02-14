@@ -24,7 +24,22 @@ router.get("/", (req, res) => {
 });
 
 //POST to projects
-router.post("/", (req, res) => {});
+router.post("/", validateProject, validateProjectId, (req, res) => {
+  const body = req.body;
+  dbP
+    .insert(body)
+    .then(project => {
+      if (body) {
+        res.status(201).json(project);
+      } else {
+        res.status(400).json({ error: "Missing name and description." });
+      }
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).json({ errorMessage: "Error adding project" });
+    });
+});
 
 // custom middleware
 function validateProjectId(req, res, next) {
@@ -53,9 +68,9 @@ function validateProject(req, res, next) {
       .json({ message: "Missing required information--name, description" });
   } else {
     res.status(400).json({ message: "Missing user data" });
-  };
-};
+  }
+}
 
-function validateProject() {};
+function validateProject() {}
 
 module.exports = router;
