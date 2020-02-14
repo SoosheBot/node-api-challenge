@@ -49,7 +49,7 @@ router.post("/", (req, res) => {
     });
 });
 
-//DELETE project
+//DELETE project at _/api/projects/:id_
 router.delete("/:id", validateProjectId, (req,res) => {
     const { id } = req.params;
     dbP.remove(id)
@@ -60,7 +60,20 @@ router.delete("/:id", validateProjectId, (req,res) => {
         console.log(err);
         res.status(500).json({ error: "Could not delete project" });
       });
-})
+});
+
+//UPDATE project at _/api/projects/:id_
+router.put('/:id', validateProject, validateProjectId, (req,res) => {
+    const body = {...req.body};
+    const {id} = req.params;
+    dbP.update(id,body)
+    .then(updated => {
+      res.status(201).json(updated);
+    })
+    .catch(err => {
+      res.status(500).json({ errorMessage: "Could not update project." });
+    });
+  });
 
 // custom middleware
 function validateProjectId(req, res, next) {
@@ -88,7 +101,7 @@ function validateProject(req, res, next) {
       .status(400)
       .json({ message: "Missing required information--name, description" });
   } else {
-    res.status(400).json({ message: "Missing user data" });
+    res.status(404).json({ message: " ID may not exist" });
   }
 }
 

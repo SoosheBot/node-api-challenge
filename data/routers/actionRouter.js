@@ -36,6 +36,7 @@ router.post("/", validateAction, validateProjectId, (req, res) => {
     });
 });
 
+//DELETE action at _/api/actions/:id_
 router.delete("/:id", validateActionId, (req, res) => {
     const { id } = req.params;
     dbA.remove(id)
@@ -49,6 +50,9 @@ router.delete("/:id", validateActionId, (req, res) => {
           .json({ error: "Action at this ID was not deleted, try again" });
       });
   });
+
+//UPDATE action at _/api/actions/:id_
+
 
 // custom middleware
 function validateActionId(req, res, next) {
