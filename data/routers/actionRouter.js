@@ -52,7 +52,17 @@ router.delete("/:id", validateActionId, (req, res) => {
   });
 
 //UPDATE action at _/api/actions/:id_
-
+router.put('/:id', validateAction, validateActionId, (req,res) => {
+    const body = {...req.body};
+    const {id} = req.params;
+    dbP.update(id,body)
+    .then(updated => {
+      res.status(201).json(updated);
+    })
+    .catch(err => {
+      res.status(500).json({ errorMessage: "Could not update action." });
+    });
+  });
 
 // custom middleware
 function validateActionId(req, res, next) {

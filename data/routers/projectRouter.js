@@ -102,9 +102,8 @@ function validateProject(req, res, next) {
       .json({ message: "Missing required information--name, description" });
   } else {
     res.status(404).json({ message: " ID may not exist" });
-  }
-}
+  };
+};
 
-function validateProject() {}
 
 module.exports = router;
