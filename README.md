@@ -40,13 +40,29 @@ Demonstrate your understanding of this Sprint's concepts by answering the follow
 
 - [ ] Mention two parts of Express that you learned about this week.
 
+---Two parts of Express I learned about this week were: CRUD operations, and routes. Both were neat.
+
+
 - [ ] Describe Middleware?
+
+---Middleware is/are functions that get the request and response objects and can operate on them and either return the response or call the next middleware in the pipeline.
+
 
 - [ ] Describe a Resource?
 
+---A resource is an object with associated data/relationships that can have set of methods operate on it.
+
+
 - [ ] What can the API return to help clients know if a request was successful?
 
+---The API can return a status like res.status(200) (maybe even with a helpful message (so it would look like res.status(200).json({message: 'successful thing happened'}))) to let clients know a request was successful.
+
+
 - [ ] How can we partition our application into sub-applications?
+
+---We can partition our application into sub-applications with things like routes, server.use, module.exports, and requires('___')s.
+
+
 
 ## Minimum Viable Product
 
