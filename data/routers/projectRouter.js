@@ -24,20 +24,23 @@ router.get("/", (req, res) => {
 });
 
 //GET actions of a project by its ID
-router.get("/:id/actions", validateProjectId, (req,res) => {
-    dbP.getProjectActions(req.params.id)
+router.get("/:id/actions", validateProjectId, (req, res) => {
+  dbP
+    .getProjectActions(req.params.id)
     .then(actions => {
-        res.status(200).json(actions);
+      res.status(200).json(actions);
     })
     .catch(err => {
-        console.log(err);
-        res.status(500).json({error: 'Could not retrieve actiosn with this project ID'});
-    })
-}); 
+      console.log(err);
+      res
+        .status(500)
+        .json({ error: "Could not retrieve actiosn with this project ID" });
+    });
+});
 
 //POST to projects
 router.post("/", (req, res) => {
-    const body = { ...req.body};
+  const body = { ...req.body };
   dbP
     .insert(req.body)
     .then(project => {
@@ -50,30 +53,34 @@ router.post("/", (req, res) => {
 });
 
 //DELETE project at _/api/projects/:id_
-router.delete("/:id", validateProjectId, (req,res) => {
-    const { id } = req.params;
-    dbP.remove(id)
+router.delete("/:id", validateProjectId, (req, res) => {
+  const { id } = req.params;
+  dbP
+    .remove(id)
     .then(project => {
-        res.status(200).json({message: `Project ${project} at id# ${id} was deleted.`});
+      res
+        .status(200)
+        .json({ message: `Project ${project} at id# ${id} was deleted.` });
     })
     .catch(err => {
-        console.log(err);
-        res.status(500).json({ error: "Could not delete project" });
-      });
+      console.log(err);
+      res.status(500).json({ error: "Could not delete project" });
+    });
 });
 
 //UPDATE project at _/api/projects/:id_
-router.put('/:id', validateProject, validateProjectId, (req,res) => {
-    const body = {...req.body};
-    const {id} = req.params;
-    dbP.update(id,body)
+router.put("/:id", validateProject, validateProjectId, (req, res) => {
+  const body = { ...req.body };
+  const { id } = req.params;
+  dbP
+    .update(id, body)
     .then(updated => {
       res.status(201).json(updated);
     })
     .catch(err => {
       res.status(500).json({ errorMessage: "Could not update project." });
     });
-  });
+});
 
 // custom middleware
 function validateProjectId(req, res, next) {
@@ -84,7 +91,7 @@ function validateProjectId(req, res, next) {
         req.checkId = checkId;
         next();
       } else {
-        res.status(400).json({ error: "Project ID may not exist." });
+        res.status(404).json({ error: "Project ID may not exist." });
       }
     })
     .catch(err => {
@@ -102,8 +109,7 @@ function validateProject(req, res, next) {
       .json({ message: "Missing required information--name, description" });
   } else {
     res.status(404).json({ message: " ID may not exist" });
-  };
-};
-
+  }
+}
 
 module.exports = router;
