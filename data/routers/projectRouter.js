@@ -36,10 +36,10 @@ router.get("/:id/actions", validateProjectId, (req,res) => {
 }); 
 
 //POST to projects
-router.post("/", validateProject, (req, res) => {
-  const body = req.body;
+router.post("/", (req, res) => {
+    const body = { ...req.body};
   dbP
-    .insert(body)
+    .insert(req.body)
     .then(project => {
       res.status(201).json(project);
     })
@@ -49,8 +49,17 @@ router.post("/", validateProject, (req, res) => {
     });
 });
 
-// GET project by actions ID
-router.get("/:id/actions")
+//DELETE project
+router.delete("/:id", validateProjectId, (req,res) => {
+    dbP.remove(req.params.id)
+    .then(project => {
+        res.status(200).json({message: `Project ${project} at id# ${req.params.id} was deleted.`});
+    })
+    .catch(err => {
+        console.log(err);
+        res.status(500).json({ error: "Could not delete project" });
+      });
+})
 
 // custom middleware
 function validateProjectId(req, res, next) {

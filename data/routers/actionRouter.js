@@ -1,7 +1,7 @@
 const express = require("express");
 
 const dbA = require("../helpers/actionModel");
-
+const dbP = require("./projectRouter");
 
 const router = express.Router();
 
@@ -23,7 +23,7 @@ router.get("/", (req, res) => {
 });
 
 //POST to actions
-router.post("/", validateAction, (req, res) => {
+router.post("/", validateAction, validateProjectId, (req, res) => {
   const body = req.body;
   dbA
     .insert(body)
@@ -67,5 +67,22 @@ function validateAction(req, res, next) {
     res.status(400).json({ message: "Missing user data" });
   }
 }
+
+function validateProjectId(req, res, next) {
+    dbP
+      .get(req.params.id)
+      .then(checkId => {
+        if (checkId) {
+          req.checkId = checkId;
+          next();
+        } else {
+          res.status(400).json({ error: "Project ID may not exist." });
+        }
+      })
+      .catch(err => {
+        console.log(err);
+        res.status(500).json({ errorMessage: "Could not verify action ID" });
+      });
+  }
 
 module.exports = router;
