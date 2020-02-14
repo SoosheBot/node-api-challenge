@@ -23,7 +23,7 @@ const AddProject = () => {
           name: "",
           description: ""
         });
-        window.location.reload(false);
+        // window.location.reload(false);
       })
       .catch(err => console.log("Could not add project", err));
   };
@@ -33,7 +33,7 @@ const AddProject = () => {
       <form onSubmit={submitForm}>
         <input
           type="text"
-          name="text"
+          name="name"
           value={addProject.name}
           placeholder="add project name"
           onChange={handleChange}
