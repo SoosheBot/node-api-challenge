@@ -22,4 +22,4 @@ router.get("/", (req,res) => {
     });
 });
 
-module.exports = projectRouter;
+module.exports = router;
