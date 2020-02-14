@@ -23,7 +23,7 @@ router.get("/", (req, res) => {
 });
 
 //POST to actions
-router.post("/", validateAction, validateProjectId, (req, res) => {
+router.post("/", (req, res) => {
   const body = req.body;
   dbA
     .insert(body)
