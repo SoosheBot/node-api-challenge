@@ -51,9 +51,10 @@ router.post("/", (req, res) => {
 
 //DELETE project
 router.delete("/:id", validateProjectId, (req,res) => {
-    dbP.remove(req.params.id)
+    const { id } = req.params;
+    dbP.remove(id)
     .then(project => {
-        res.status(200).json({message: `Project ${project} at id# ${req.params.id} was deleted.`});
+        res.status(200).json({message: `Project ${project} at id# ${id} was deleted.`});
     })
     .catch(err => {
         console.log(err);

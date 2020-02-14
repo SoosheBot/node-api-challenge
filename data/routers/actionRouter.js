@@ -36,6 +36,20 @@ router.post("/", validateAction, validateProjectId, (req, res) => {
     });
 });
 
+router.delete("/:id", validateActionId, (req, res) => {
+    const { id } = req.params;
+    dbA.remove(id)
+      .then(actionId => {
+        res.status(200).json({message: `Action ${actionId} at id# ${id} was deleted.`});
+      })
+      .catch(err => {
+        console.log(err);
+        res
+          .status(500)
+          .json({ error: "Action at this ID was not deleted, try again" });
+      });
+  });
+
 // custom middleware
 function validateActionId(req, res, next) {
   dbA
