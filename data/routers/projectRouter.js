@@ -24,26 +24,38 @@ router.get("/", (req, res) => {
 });
 
 //POST to projects
-router.post("/", (req,res) => {
-
-});
+router.post("/", (req, res) => {});
 
 // custom middleware
 function validateProjectId(req, res, next) {
-    dbP
-      .get(req.params.id)
-      .then(checkId => {
-        if (checkId) {
-          req.checkId = checkId;
-          next();
-        } else {
-          res.status(400).json({ error: "Project ID may not exist." });
-        };
-      })
-      .catch(err => {
-        console.log(err);
-        res.status(500).json({ errorMessage: "Could not verify action ID" });
-      });
+  dbP
+    .get(req.params.id)
+    .then(checkId => {
+      if (checkId) {
+        req.checkId = checkId;
+        next();
+      } else {
+        res.status(400).json({ error: "Project ID may not exist." });
+      }
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).json({ errorMessage: "Could not verify action ID" });
+    });
+}
+
+function validateProject(req, res, next) {
+  if (req.body) {
+    next();
+  } else if (!req.body.name || !req.body.description) {
+    res
+      .status(400)
+      .json({ message: "Missing required information--name, description" });
+  } else {
+    res.status(400).json({ message: "Missing user data" });
   };
-  
+};
+
+function validateProject() {};
+
 module.exports = router;
