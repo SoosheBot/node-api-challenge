@@ -23,23 +23,34 @@ router.get("/", (req, res) => {
     });
 });
 
+//GET actions of a project by its ID
+router.get("/:id/actions", validateProjectId, (req,res) => {
+    dbP.getProjectActions(req.params.id)
+    .then(actions => {
+        res.status(200).json(actions);
+    })
+    .catch(err => {
+        console.log(err);
+        res.status(500).json({error: 'Could not retrieve actiosn with this project ID'});
+    })
+}); 
+
 //POST to projects
-router.post("/", validateProject, validateProjectId, (req, res) => {
+router.post("/", validateProject, (req, res) => {
   const body = req.body;
   dbP
     .insert(body)
     .then(project => {
-      if (body) {
-        res.status(201).json(project);
-      } else {
-        res.status(400).json({ error: "Missing name and description." });
-      }
+      res.status(201).json(project);
     })
     .catch(err => {
       console.log(err);
       res.status(500).json({ errorMessage: "Error adding project" });
     });
 });
+
+// GET project by actions ID
+router.get("/:id/actions")
 
 // custom middleware
 function validateProjectId(req, res, next) {

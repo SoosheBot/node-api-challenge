@@ -1,7 +1,7 @@
 const express = require("express");
 
 const dbA = require("../helpers/actionModel");
-const dbP = require("../helpers/projectModel");
+
 
 const router = express.Router();
 
@@ -23,7 +23,7 @@ router.get("/", (req, res) => {
 });
 
 //POST to actions
-router.post("/", validateAction, validateActionId, (req, res) => {
+router.post("/", validateAction, (req, res) => {
   const body = req.body;
   dbA
     .insert(body)
