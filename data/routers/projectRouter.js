@@ -23,6 +23,27 @@ router.get("/", (req, res) => {
     });
 });
 
-router.get
+//POST to projects
+router.post("/", (req,res) => {
 
+});
+
+// custom middleware
+function validateProjectId(req, res, next) {
+    dbP
+      .get(req.params.id)
+      .then(checkId => {
+        if (checkId) {
+          req.checkId = checkId;
+          next();
+        } else {
+          res.status(400).json({ error: "Project ID may not exist." });
+        };
+      })
+      .catch(err => {
+        console.log(err);
+        res.status(500).json({ errorMessage: "Could not verify action ID" });
+      });
+  };
+  
 module.exports = router;
